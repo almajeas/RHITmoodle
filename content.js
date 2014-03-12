@@ -26,11 +26,12 @@ var hideClasses = function(data){
     QUARTERS[quarterSubstring].push(child);
     child.remove();
   }
-  if(!data.showPastQuarters && !data.showFutureQuarters){
+  /*if(!data.showPastQuarters && !data.showFutureQuarters){
     $("#RHITmoodleDiv").append(generateQuarterBlock(selectedQuarterCode, QUARTERS[selectedQuarterCode]));
   }else{
     generateQuartersTree(selectedQuarterCode, QUARTERS, data);
-  }
+  }*/
+  generateQuartersTree(selectedQuarterCode, QUARTERS, data);
   parentNode.remove();
   toggle();
   appendCSS();
@@ -52,6 +53,7 @@ var generateQuarterBlock = function(name, children){
   classes.setAttribute("id",name+"classes" );
   for(var i in children){
     var c = children[i];
+    children[i].firstChild.firstChild.setAttribute("src", branchImage);
     classes.appendChild(children[i]);
   }
   classes.children[classes.childElementCount-1].firstChild.firstChild.setAttribute("src", branchBottomImage);
@@ -79,6 +81,9 @@ var generateQuartersTree = function(selectedQuarterCode, QUARTERS, data){
         if(state == 0){
           past.push(generateQuarterBlock(code, QUARTERS[code]));
         }else if(state == 1){
+          if(data.CHE411Lab && QUARTERS['CHE']){
+            QUARTERS[code][QUARTERS[code].length] = QUARTERS['CHE'][0];
+          }
           current.push(generateQuarterBlock(code, QUARTERS[code]));
           state++;
         }else if (state == 2){
