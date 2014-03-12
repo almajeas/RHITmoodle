@@ -1,0 +1,11 @@
+#RHITmoodleDiv{
+	width: auto;
+	height: 200px;
+	overflow: auto;
+	border: solid 0px;
+}
+
+.RHITmoodleCustom{
+	height: auto;
+	width: auto;
+}

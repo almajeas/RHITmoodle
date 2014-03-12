@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "RHIT moodle",
+  "description": "Organize moodle classes into lists by quarter. Also, allows the hiding of old quarters",
+  "version": "1.0",
+  "author": "Ali Almajed",
+  "icons":{
+    "16":"icons/RHITmoodle-16.png",
+    "48":"icons/RHITmoodle-48.png",
+    "128":"icons/RHITmoodle-128.png",
+    "246":"icons/RHITmoodle-256.png"
+  },
+
+
+ "permissions": [
+    "storage"
+  ],
+
+  "content_scripts": [ {
+      "matches": ["http://moodle.rose-hulman.edu/"],
+      "css":["content.css"],
+      "js": ["jquery-1.10.2.min.js", "content.js"]
+    }
+ ],
+
+ "web_accessible_resources":["jquery-1.10.2.min.js", "jquery-1.10.2.min.map", "content.js", "content.css", "opened.png", "closed.png", "branch.gif", "branchbottom.gif"],
+
+ "browser_action": {
+    "default_icon": "icons/RHITmoodle-16.png",
+    "default_popup": "RHITmoodle.html"
+  }
+}

@@ -1,0 +1,19 @@
+
+body{
+	width: 200px;
+	background-color: #dcd1cc;
+}
+#tdiv{
+	background-color: #a1022d;
+}
+
+#bdiv{
+	background-color: #dcd1cc;
+}
+
+#savediv{
+	text-align: center;
+}
+#emaildiv{
+	text-align: center;
+}
