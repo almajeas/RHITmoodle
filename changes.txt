@@ -1,7 +1,11 @@
 1.1 (March 12, 2014)
 * UI improvements (tabbed view)
 * Fixed minimize/expand tree icons
+<<<<<<< HEAD
 * Added option to show CHE Laboratory
+=======
+* Added option to show CHE Labratory
+>>>>>>> 493e2b24d9491ec6dda04affb41cdfa6b5ef9199
 
 
 1.0 (March 3, 2014)
