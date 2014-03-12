@@ -7,7 +7,8 @@ var RHITmoodle = {
 	showPastQuarters: false,
 	*/
   	load: function() {
-  		$('#save').click(this.storeData);
+  		$('#save').click(this.storeDataDev1);
+  		$('#save2').click(this.storeDataDev2);
 	  	this.loadData();
 	},
 
@@ -31,11 +32,15 @@ var RHITmoodle = {
 	      }else{
 	      	$("#ascending").attr("checked", obj.ascending);
 	      }
-
+	      if(obj.showFutureQuarters){
+	      	$("#CHE411Lab").attr("checked", obj.CHE411Lab);
+	      }else{
+	      	$("#CHE411Lab").attr("checked", obj.CHE411Lab);
+	      }
 	    });
 	},
 
-	storeData: function(){
+	storeDataDev1: function(){
 		var selected = $('#quartersList').find(":selected").text();
 		var showPastQuartersChecked = document.getElementById("showPastQuarters").checked;
 		var showFutureQuartersChecked  = document.getElementById("showFutureQuarters").checked;
@@ -44,6 +49,13 @@ var RHITmoodle = {
 	    			showPastQuarters : showPastQuartersChecked,
 	    			showFutureQuarters : showFutureQuartersChecked,
 	    			ascending: ascendingChecked};
+	    chrome.storage.sync.set(data, function() {console.log("Quarter info stored")});
+	    window.close();
+	},
+	
+	storeDataDev2: function(){
+		var che411LabChecked = document.getElementById("CHE411Lab").checked;
+		var data = {CHE411Lab: che411LabChecked};
 	    chrome.storage.sync.set(data, function() {console.log("Quarter info stored")});
 	    window.close();
 	}
@@ -55,5 +67,6 @@ var RHITmoodle = {
 
 // Run our kitten generation script as soon as the document's DOM is ready.
 document.addEventListener('DOMContentLoaded', function () {
+  $("ul.tabs").tabs("div.panes > div");
   RHITmoodle.load();
 });

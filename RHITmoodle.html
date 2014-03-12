@@ -2,35 +2,61 @@
 <html>
   <head>
     <title>MoodleHideOldClasses</title>
-    <link rel="stylesheet" type="text/css" href="RHITmoodle.css">
     <script src="jquery-1.10.2.min.js"></script>
+    <script src="jquery.tools.min.js"></script>
     <script src="RHITmoodle.js"></script>
+    <link rel="stylesheet" type="text/css" href="RHITmoodle.css">
   </head>
   <body>
     <div id="tdiv">
-        <h1>RHIT Moodle</h1>
+      <h1>RHIT Moodle</h1>
     </div>
-    <div id="bdiv">
-      <form>
-        <span>Current Quarter: </span>
-        <select id="quartersList">
-          <option value="Fall" selected="selected">Fall</option>
-          <option value="Winter">Winter</option>
-          <option value="Spring">Spring</option>
-          <option value="Summer">Summer</option>
-        </select>
-        <br>
-        <input type="checkbox" id="showPastQuarters" name="showPastQuarters" value="showPastQuarters"><span>Show Past Quarters</span>
-        <br>
-        <input type="checkbox" id="showFutureQuarters"  name="showFutureQuarters" value="showFutureQuarters"><span>Show Future Quarters</span>
-        <br>
-        <input type="checkbox" id="ascending"  name="ascending" value="ascending"><span>Ascending</span>
-        <br>
-        <div id="savediv">
-          <button id="save" class="btn btn-default button-submit">save</button>
+    <ul class="tabs">
+      <li><a href="#" class="l"><span>General</span></a></li>
+      <li><a href="#" class="s"><span>Specific</span></a></li>
+    </ul>
+    <div class="panes">
+
+      <div class="pane">
+        <div class="bdiv">
+          <form>
+            <span>Current Quarter: </span>
+            <select id="quartersList">
+              <option value="Fall" selected="selected">Fall</option>
+              <option value="Winter">Winter</option>
+              <option value="Spring">Spring</option>
+              <option value="Summer">Summer</option>
+            </select>
+            <br>
+            <input type="checkbox" id="showPastQuarters" name="showPastQuarters" value="showPastQuarters"><span>Show Past Quarters</span>
+            <br>
+            <input type="checkbox" id="showFutureQuarters"  name="showFutureQuarters" value="showFutureQuarters"><span>Show Future Quarters</span>
+            <br>
+            <input type="checkbox" id="ascending"  name="ascending" value="ascending"><span>Ascending</span>
+            <br>
+            <br>
+            <div class="savediv">
+              <button id="save" class="btn btn-default button-submit">save</button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+      
+      <div class="pane">
+        <div class="bdiv">
+          <form>
+            <input type="checkbox" id="CHE411Lab"  name="CHE411Lab" value="CHE411Lab"><span>Show CHE Labratory</span>
+            <br>
+            <br>
+            <div class="savediv">
+              <button id="save2" class="btn btn-default button-submit">save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
+
     <div id="emaildiv">
       <a id="email" href="mailto:rhitmoodle@gmail.com" target="_new">Email Developer</a>
     </div>
