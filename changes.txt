@@ -1,3 +1,7 @@
+v1.12 (April 18, 2014)
+* Fixed Issue with disappearing courses
+* Included "2014 Senior Memory Book" to the current quarter
+
 1.1 (March 12, 2014)
 * UI improvements (tabbed view)
 * Fixed minimize/expand tree icons

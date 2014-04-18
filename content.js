@@ -84,6 +84,9 @@ var generateQuartersTree = function(selectedQuarterCode, QUARTERS, data){
           if(data.CHE411Lab && QUARTERS['CHE']){
             QUARTERS[code][QUARTERS[code].length] = QUARTERS['CHE'][0];
           }
+          if( QUARTERS['2014']){
+            QUARTERS[code][QUARTERS[code].length] = QUARTERS['2014'][0];
+          }
           current.push(generateQuarterBlock(code, QUARTERS[code]));
           state++;
         }else if (state == 2){
@@ -130,11 +133,11 @@ var computeQuarterCode = function(quarter){
   if(!quarter){
     if((1 <= month && month <= 2 )|| month == 12){
       quarter = "Winter";
-    }else if(3>= month && month <= 5){
+    }else if(3<= month && month <= 5){
       quarter = "Spring";
-    }else if(6>= month && month <= 8){
+    }else if(6<= month && month <= 8){
       quarter = "Summer";
-    }else if(9>= month && month <= 11){
+    }else if(9<= month && month <= 11){
       quarter = "Fall";
     }
   }

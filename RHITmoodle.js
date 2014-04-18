@@ -50,7 +50,7 @@ var RHITmoodle = {
 	    			showFutureQuarters : showFutureQuartersChecked,
 	    			ascending: ascendingChecked};
 	    chrome.storage.sync.set(data, function() {console.log("Quarter info stored")});
-	    window.close();
+        window.close();
 	},
 	
 	storeDataDev2: function(){
@@ -59,8 +59,6 @@ var RHITmoodle = {
 	    chrome.storage.sync.set(data, function() {console.log("Quarter info stored")});
 	    window.close();
 	}
-
-
 };
 
 
