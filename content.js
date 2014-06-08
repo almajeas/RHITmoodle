@@ -4,41 +4,46 @@ var branchBottomImage = chrome.extension.getURL("branchbottom.gif");
 var branchOpened = chrome.extension.getURL("opened.png");
 var branchClosed = chrome.extension.getURL("closed.png");
 
-var hideClasses = function(data){
+var hideClasses = function(data, myCourses){
   var selectedQuarterCode = computeQuarterCode(data.currentQuarter);
   var QUARTERS = {};
   var RHITmoodleDiv = generateRHITmoodleDiv();
-  var mainTag = document.getElementById("objTreeMenu_1_node_1");
-  var parentNode =  mainTag.parentNode;
-  insertAfter(parentNode, RHITmoodleDiv);
-  var childNodes = parentNode.getElementsByTagName('div');
+  var contentSection = document.getElementById('block-region-side-pre');
+  var contentSectionFirstChild = contentSection.firstChild;
+
+  //the aa, ss elements are needed to make our div act like a native one (so the moodle scripts will operate on it too)
+  var aa = document.createElement('a');
+  aa.setAttribute('href', '#sb-9');
+  aa.setAttribute('class', 'skip-block');
+  aa.innerHTML = 'Skip RHITmoodle';
+
+  var ss = document.createElement('span');
+  ss.setAttribute('id', 'sb-9');
+  ss.setAttribute('class', 'skip-block-to');
+
+  contentSection.insertBefore(ss, contentSectionFirstChild.nextSibling.nextSibling.nextSibling);//the nesting is to add our div after the native navigation div
+  contentSection.insertBefore(RHITmoodleDiv, ss);
+  contentSection.insertBefore(aa, RHITmoodleDiv);
+
+
   selectedQuarterClasses = [];
   otherClasses = [];
-  childNodes[0].remove();//the one with the title;
-  while(childNodes.length != 0){
-    var child = childNodes[0];
-    var titleContainerElement = child.getElementsByTagName('a')[0];
-    var title = titleContainerElement.getAttribute("title");
+  for(var i = 0; i < myCourses.length; i++){
+    var child = myCourses[i];
+    var title = child.name;
     var quarterSubstring = title.substring(0,title.indexOf(" "));
     if(! QUARTERS[quarterSubstring]){
       QUARTERS[quarterSubstring] = [];
     }
     QUARTERS[quarterSubstring].push(child);
-    child.remove();
   }
-  /*if(!data.showPastQuarters && !data.showFutureQuarters){
-    $("#RHITmoodleDiv").append(generateQuarterBlock(selectedQuarterCode, QUARTERS[selectedQuarterCode]));
-  }else{
-    generateQuartersTree(selectedQuarterCode, QUARTERS, data);
-  }*/
   generateQuartersTree(selectedQuarterCode, QUARTERS, data);
-  parentNode.remove();
   toggle();
   appendCSS();
 };
 
 var generateQuarterBlock = function(name, children){
-  var div = document.createElement('div');
+  var quarterDiv = document.createElement('div');
   var a = document.createElement('a');
   a.setAttribute("id", name);
   a.setAttribute("class", "classgroup");
@@ -48,17 +53,20 @@ var generateQuarterBlock = function(name, children){
   parent.innerHTML = name;
   a.appendChild(img);
   a.appendChild(parent);
-  div.appendChild(a);
-  var classes = document.createElement('div');
+  quarterDiv.appendChild(a);
+  var classes = document.createElement('ul');
   classes.setAttribute("id",name+"classes" );
   for(var i in children){
-    var c = children[i];
-    children[i].firstChild.firstChild.setAttribute("src", branchImage);
-    classes.appendChild(children[i]);
+    var child = children[i];
+    var courseNameLi = document.createElement('li');
+    courseNameLi.innerHTML = child.title;
+    var course = document.createElement('a');
+    course.setAttribute('href', child.link);
+    course.appendChild(courseNameLi);
+    classes.appendChild(course);
   }
-  classes.children[classes.childElementCount-1].firstChild.firstChild.setAttribute("src", branchBottomImage);
-  div.appendChild(classes);
-  return div;
+  quarterDiv.appendChild(classes);
+  return quarterDiv;
 };
 
 var generateQuartersTree = function(selectedQuarterCode, QUARTERS, data){ 
@@ -98,26 +106,38 @@ var generateQuartersTree = function(selectedQuarterCode, QUARTERS, data){
   
   if(data.ascending){
     if(data.showPastQuarters){
-      $("#RHITmoodleDiv").append(past);
+      $("#RHITmoodleContentDiv").append(past);
     }
-    $("#RHITmoodleDiv").append(current);
+    $("#RHITmoodleContentDiv").append(current);
     if(data.showFutureQuarters){
-      $("#RHITmoodleDiv").append(future);
+      $("#RHITmoodleContentDiv").append(future);
     }
   }else{
     if(data.showFutureQuarters){
-      $("#RHITmoodleDiv").append(future.reverse());
+      $("#RHITmoodleContentDiv").append(future.reverse());
     }
-    $("#RHITmoodleDiv").append(current.reverse());
+    $("#RHITmoodleContentDiv").append(current.reverse());
     if(data.showPastQuarters){
-      $("#RHITmoodleDiv").append(past.reverse());
+      $("#RHITmoodleContentDiv").append(past.reverse());
     }
   }
 };
 
 var generateRHITmoodleDiv = function(){
   var RHITmoodleDiv = document.createElement('div');
-  RHITmoodleDiv.setAttribute("id", "RHITmoodleDiv");
+  //Note: the weird attributes and structure are set to make our div act like a native moodle div, and have moodle's javascripts process it.
+  RHITmoodleDiv.innerHTML = '<div class="header"><div class="title"><div class="block_action"><input type="image" class="moveto customcommand requiresjs" alt="Move this to the dock" title="Dock RHITmoodle block" src="http://moodle.rose-hulman.edu/theme/image.php/clean/core/1401827230/t/block_to_dock"></div><h2 id="instance-9-header">RHITmoodle</h2></div></div>'
+  RHITmoodleDiv.setAttribute("id", "inst9");
+  RHITmoodleDiv.className += RHITmoodleDiv.className ? ' block_navigation  block' : 'block_navigation  block';
+  RHITmoodleDiv.setAttribute('data-dockable', 1);
+  RHITmoodleDiv.setAttribute('role', 'RHITmoodle');
+  RHITmoodleDiv.setAttribute('data-block', 'RHITmoodle');
+  RHITmoodleDiv.setAttribute('data-instanceid', 9);
+  RHITmoodleDiv.setAttribute('aria-labelledby', 'instance-9-header');
+  var contentDiv = document.createElement('div');
+  contentDiv.setAttribute('class', 'content');
+  contentDiv.setAttribute('id', 'RHITmoodleContentDiv');
+  RHITmoodleDiv.appendChild(contentDiv);
   return RHITmoodleDiv;
 };
 
@@ -192,11 +212,24 @@ var toggle = function (){
    });
 };
 
-$(document).ready( function () {
-  //I do the data load first, because we don't want to run the function before we aquire needed data.
-  chrome.storage.sync.get(null, function(obj){
-        if(obj){
-          hideClasses(obj);
-        }
-      });
-},true); 
+var getMyCourses = function (data) {
+  var http = new XMLHttpRequest();
+  var url = "http://moodle.rose-hulman.edu/lib/ajax/getnavbranch.php";
+  var params = "id=mycourses&type=0";
+  http.open("POST", url, true);
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.onreadystatechange = function() {//Call a function when the state changes.
+      if(http.readyState == 4 && http.status == 200) {
+          var myCourses = JSON.parse(http.responseText).children;
+          hideClasses(data, myCourses);
+      }
+  };
+  http.send(params);
+};
+
+//run
+chrome.storage.sync.get(null, function(data){
+      if(data){
+        getMyCourses(data);
+      }
+  });
